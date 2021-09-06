@@ -1,6 +1,18 @@
 import React, { useEffect } from "react";
 
-function MIDI(props) {
+function MIDI({ notes }) {
+  function addNote(note, velocity) {
+    notes.current.push({ note, velocity });
+  }
+
+  function removeNote(note) {
+    notes.current.forEach((n, i) => {
+      if (n.note === note) {
+        notes.current.splice(i, 1);
+      }
+    });
+  }
+
   function getMIDIMessage(midiMessage) {
     const command = midiMessage.data[0];
     const note = midiMessage.data[1];
@@ -8,7 +20,14 @@ function MIDI(props) {
     console.log("command: ", command);
     console.log("note: ", note);
     console.log("veloctiy: ", velocity);
+    if (command === 144) {
+      addNote(note, velocity);
+    }
+    if (command === 128) {
+      removeNote(note);
+    }
   }
+
   useEffect(() => {
     navigator.requestMIDIAccess().then(function (access) {
       // Get lists of available MIDI controllers

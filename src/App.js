@@ -1,11 +1,19 @@
-import logo from "./logo.svg";
+import { useEffect, useRef } from "react";
+
 import "./App.css";
 import MIDI from "./components/MIDI";
 
 function App() {
+  const notes = useRef([]);
+
+  const onClick = () => {
+    console.log("notes: ", notes);
+  };
+
   return (
     <div className="App">
-      <MIDI />
+      <button onClick={onClick}></button>
+      <MIDI notes={notes} />
     </div>
   );
 }
