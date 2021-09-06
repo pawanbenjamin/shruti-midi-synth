@@ -11,7 +11,7 @@ function App() {
   const notes = useRef({});
 
   const onClick = () => {
-    console.log("notes: ", notes);
+    console.log("notes: ", notes.current);
   };
 
   return (

@@ -22,7 +22,6 @@ function MIDI({ notes }) {
     if (command === 128) {
       removeNote(note);
     }
-    console.log(notes.current);
   }
 
   useEffect(() => {
