@@ -2,15 +2,11 @@ import React, { useEffect } from "react";
 
 function MIDI({ notes }) {
   function addNote(note, velocity) {
-    notes.current.push({ note, velocity });
+    notes.current[note] = velocity;
   }
 
   function removeNote(note) {
-    notes.current.forEach((n, i) => {
-      if (n.note === note) {
-        notes.current.splice(i, 1);
-      }
-    });
+    delete notes.current[note];
   }
 
   function getMIDIMessage(midiMessage) {
@@ -26,6 +22,7 @@ function MIDI({ notes }) {
     if (command === 128) {
       removeNote(note);
     }
+    console.log(notes.current);
   }
 
   useEffect(() => {

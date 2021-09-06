@@ -4,7 +4,11 @@ import "./App.css";
 import MIDI from "./components/MIDI";
 
 function App() {
-  const notes = useRef([]);
+  var AudioContext = window.AudioContext || window.webkitAudioContext;
+
+  const audioCtx = new AudioContext();
+
+  const notes = useRef({});
 
   const onClick = () => {
     console.log("notes: ", notes);
@@ -13,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <button onClick={onClick}></button>
-      <MIDI notes={notes} />
+      <MIDI notes={notes} audioCtx={audioCtx} />
     </div>
   );
 }
