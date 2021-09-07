@@ -2,63 +2,11 @@ import React, { useEffect } from "react";
 import { parseNoteValues } from "../utils";
 
 function MIDI({ notes, audioCtx, gain, rootKey, rootFreq, scale }) {
-  //   function parseNoteValues(note, rootKey, scale, rootFreq) {
-  //     //if root key is 58 (D)
-  //     //the frequency for 58:rootFreq
-  //     //createFrequency Table to use for note generation
-  //     let copy = rootKey;
-  //     let scaleDegree = 0;
-  //     let oct = 1;
-  //     let idx = 0 % 12;
-  //     const freqTable = {
-  //       rootKey: rootFreq,
-  //     };
-  //     while (copy < 128) {
-  //       let ratio = scale[scaleDegree % 12];
-  //       let [numer, denom] = ratio.split("/");
-  //       numer = parseInt(numer);
-  //       denom = parseInt(denom);
-  //       console.log({
-  //         numer,
-  //         denom,
-  //       });
-  //       //   const [numerator, denominator] = scale[scaleDegree % 11].split("/");
-  //       //   freqTable[copy] = (rootFreq * +numerator) / +denominator;
-  //       copy++;
-  //       scaleDegree++;
-  //       idx++;
-  //       if (idx === 0) {
-  //         oct++;
-  //       }
-  //     }
-  //     let copy2 = rootFreq;
-  //     let scaleDeg2 = 0;
-  //     let idx2 = 0 % 12;
-  //     while (copy2 >= 0) {
-  //       let ratio = scale[scaleDeg2 % 12];
-  //       let [numer, denom] = ratio.split("/");
-  //       numer = parseInt(numer);
-  //       denom = parseInt(denom);
-  //       console.log({
-  //         numer,
-  //         denom,
-  //       });
-  //       //   const [numerator, denominator] = scale[scaleDegree % 11].split("/");
-  //       //   freqTable[copy] = (rootFreq * +numerator) / +denominator;
-  //       copy2--;
-  //       scaleDeg2--;
-  //       idx--;
-  //       if (idx === 0) {
-  //         oct--;
-  //       }
-  //     }
-  //     console.log(scale);
-  //   }
-
   function addNote(note, velocity) {
     // here we need to reference out freq map stored in parent component
     // parseNoteValues(note, rootKey, scale, rootFreq);
     const osc = audioCtx.createOscillator();
+    // pass the frequency from the table into here
     osc.frequency.setValueAtTime(440.0, audioCtx.currentTime);
     osc.type = "sawtooth";
     notes.current[note] = osc;

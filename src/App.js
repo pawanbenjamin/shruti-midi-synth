@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
-import FreqTable from "./components/FreqTable";
+import FreqTable from "./components/SynthOptions";
 import MIDI from "./components/MIDI";
+
+import { createFreqTable } from "./utils";
 
 function App() {
   var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -19,6 +21,7 @@ function App() {
 
   const [rootFreq, setRootFreq] = useState("261.63");
 
+  // Note Ratios
   const [sa, setSa] = useState("1/1");
   const [komalRe, setKomalRe] = useState("16/15");
   const [re, setRe] = useState("9/8");
@@ -31,6 +34,30 @@ function App() {
   const [dha, setDha] = useState("5/3");
   const [komalNi, setKomalNi] = useState("9/5");
   const [ni, setNi] = useState("15/8");
+
+  // Frequency Table
+  const [table, setTable] = useState({});
+
+  useEffect(() => {
+    createFreqTable(
+      rootKey,
+      [
+        sa,
+        komalRe,
+        re,
+        komalGa,
+        ga,
+        ma,
+        tivraMa,
+        pa,
+        komalDha,
+        dha,
+        komalNi,
+        ni,
+      ],
+      rootFreq
+    );
+  });
 
   const onClick = () => {
     console.log("notes: ", notes.current);
