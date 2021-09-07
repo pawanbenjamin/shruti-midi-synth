@@ -30,15 +30,11 @@ export function createFreqTable(rootKey, scale, rootFreq) {
   while (copy2 >= 21) {
     let ratio = scale[scaleDeg2 % 12];
 
-    console.log("RATION IN THE DESCENT ", ratio);
-
     let [numer, denom] = ratio.split("/");
     numer = parseInt(numer);
     denom = parseInt(denom);
 
     freqTable[copy2] = (rootFreq * numer * oct2) / denom;
-
-    console.log("FREQ TABLE IN DESCENDING WHILE LOOP   ", freqTable);
 
     copy2--;
     if (scaleDeg2 === 0) {
@@ -50,4 +46,6 @@ export function createFreqTable(rootKey, scale, rootFreq) {
       oct = oct / 2;
     }
   }
+
+  return freqTable;
 }

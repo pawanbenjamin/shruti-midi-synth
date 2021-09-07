@@ -39,7 +39,7 @@ function App() {
   const [table, setTable] = useState({});
 
   useEffect(() => {
-    createFreqTable(
+    let newTable = createFreqTable(
       rootKey,
       [
         sa,
@@ -57,7 +57,24 @@ function App() {
       ],
       rootFreq
     );
-  });
+    setTable(newTable);
+    console.log(table);
+  }, [
+    rootFreq,
+    rootKey,
+    sa,
+    komalRe,
+    re,
+    komalGa,
+    ga,
+    ma,
+    tivraMa,
+    pa,
+    komalDha,
+    dha,
+    komalNi,
+    ni,
+  ]);
 
   const onClick = () => {
     console.log("notes: ", notes.current);
@@ -67,6 +84,7 @@ function App() {
     <div className="App">
       <button onClick={onClick}>Log out Notes Object</button>
       <MIDI
+        table={table}
         notes={notes}
         audioCtx={audioCtx}
         gain={gain}

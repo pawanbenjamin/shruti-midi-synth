@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { parseNoteValues } from "../utils";
 
-function MIDI({ notes, audioCtx, gain, rootKey, rootFreq, scale }) {
+function MIDI({ notes, audioCtx, gain, table }) {
   function addNote(note, velocity) {
     // here we need to reference out freq map stored in parent component
     // parseNoteValues(note, rootKey, scale, rootFreq);
     const osc = audioCtx.createOscillator();
     // pass the frequency from the table into here
-    osc.frequency.setValueAtTime(440.0, audioCtx.currentTime);
+    const noteFreq = table[note];
+    osc.frequency.setValueAtTime(noteFreq, audioCtx.currentTime);
     osc.type = "sawtooth";
     notes.current[note] = osc;
     notes.current[note].connect(gain);
