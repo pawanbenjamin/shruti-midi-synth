@@ -8,6 +8,8 @@ export function createFreqTable(rootKey, scale, rootFreq) {
   let scaleDegree = 0;
   let oct = 1;
 
+  let counter = 1;
+
   while (copy <= 108) {
     let ratio = scale[scaleDegree % 12];
     let [numer, denom] = ratio.split("/");
@@ -18,18 +20,19 @@ export function createFreqTable(rootKey, scale, rootFreq) {
 
     copy++;
     scaleDegree++;
-    if (copy % 12 === 0) {
-      oct = oct * 2;
+    if (counter === 12) {
+      counter = 0;
+      oct *= 2;
     }
+    counter++;
   }
 
   let copy2 = rootKey - 1;
-  let scaleDeg2 = scale.length - 1;
+  let scaleDegree2 = scale.length - 1;
   let oct2 = 1 / 2;
 
   while (copy2 >= 21) {
-    let ratio = scale[scaleDeg2 % 12];
-
+    let ratio = scale[scaleDegree2 % 12];
     let [numer, denom] = ratio.split("/");
     numer = parseInt(numer);
     denom = parseInt(denom);
@@ -37,14 +40,11 @@ export function createFreqTable(rootKey, scale, rootFreq) {
     freqTable[copy2] = (rootFreq * numer * oct2) / denom;
 
     copy2--;
-    if (scaleDeg2 === 0) {
-      scaleDeg2 = scale.length - 1;
-    } else {
-      scaleDeg2--;
+    if (scaleDegree2 === 0) {
+      scaleDegree2 = scale.length;
+      oct2 = oct2 / 2;
     }
-    if (copy2 % 12 === 0) {
-      oct = oct / 2;
-    }
+    scaleDegree2--;
   }
 
   return freqTable;

@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
 import "./App.css";
-import SynthOptions from "./components/SynthOptions";
-import MIDI from "./components/MIDI";
 
 import { createFreqTable } from "./utils";
 
@@ -17,9 +15,9 @@ function App() {
 
   const notes = useRef({});
 
-  const [rootKey, setRootKey] = useState(60);
+  const [rootKey, setRootKey] = useState(69);
 
-  const [rootFreq, setRootFreq] = useState("261.63");
+  const [rootFreq, setRootFreq] = useState("432");
 
   // Note Ratios
   const [sa, setSa] = useState("1/1");
@@ -58,6 +56,7 @@ function App() {
       rootFreq
     );
     table.current = newTable;
+    console.log(table.current);
   }, [
     sa,
     komalRe,
@@ -76,7 +75,7 @@ function App() {
   ]);
 
   const onClick = () => {
-    console.log("notes: ", notes.current);
+    console.log("Notes Table: ", table.current);
   };
 
   const changeKey = (e) => {
@@ -92,7 +91,7 @@ function App() {
     // parseNoteValues(note, rootKey, scale, rootFreq);
     const osc = audioCtx.createOscillator();
     // pass the frequency from the table into here
-    console.log("TABLE.current", table.current);
+
     osc.frequency.setValueAtTime(table.current[note], audioCtx.currentTime);
     osc.type = "sawtooth";
     notes.current[note] = osc;
@@ -109,9 +108,9 @@ function App() {
     const command = midiMessage.data[0];
     const note = midiMessage.data[1];
     const velocity = midiMessage.data.length > 2 ? midiMessage.data[2] : 0;
-    // console.log("command: ", command);
-    // console.log("note: ", note);
-    // console.log("veloctiy: ", velocity);
+    console.log("command: ", command);
+    console.log("note: ", note);
+    console.log("veloctiy: ", velocity);
     if (command === 144) {
       addNote(note, velocity);
     }
@@ -172,7 +171,7 @@ function App() {
           <label>Root Freq:</label>
           <input
             type="text"
-            placeholder="261.63"
+            placeholder="432"
             onChange={(e) => setRootFreq(e.target.value)}
           />
           <label>Root Key:</label>
@@ -186,7 +185,9 @@ function App() {
             <option value="66">F# / Gb</option>
             <option value="67">G</option>
             <option value="68">G# / Ab</option>
-            <option value="69">A</option>
+            <option value="69" selected>
+              A
+            </option>
             <option value="70">A# / Bb</option>
             <option value="71">B</option>
           </select>
