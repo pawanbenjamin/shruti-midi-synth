@@ -1,25 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { createFreqTable } from "../utils";
 
-function MIDI({ notes }) {
+function MIDI({ notes, audioCtx, gain, table }) {
   function addNote(note, velocity) {
-    notes.current.push({ note, velocity });
+    // here we need to reference out freq map stored in parent component
+    // parseNoteValues(note, rootKey, scale, rootFreq);
+    const osc = audioCtx.createOscillator();
+    // pass the frequency from the table into here
+
+    osc.frequency.setValueAtTime(432, audioCtx.currentTime);
+    osc.type = "sawtooth";
+    notes.current[note] = osc;
+    notes.current[note].connect(gain);
+    notes.current[note].start();
   }
 
   function removeNote(note) {
-    notes.current.forEach((n, i) => {
-      if (n.note === note) {
-        notes.current.splice(i, 1);
-      }
-    });
+    notes.current[note].stop();
+    delete notes.current[note];
   }
 
   function getMIDIMessage(midiMessage) {
     const command = midiMessage.data[0];
     const note = midiMessage.data[1];
     const velocity = midiMessage.data.length > 2 ? midiMessage.data[2] : 0;
-    console.log("command: ", command);
-    console.log("note: ", note);
-    console.log("veloctiy: ", velocity);
+    // console.log("command: ", command);
+    // console.log("note: ", note);
+    // console.log("veloctiy: ", velocity);
     if (command === 144) {
       addNote(note, velocity);
     }
@@ -48,7 +55,7 @@ function MIDI({ notes }) {
       };
     });
   }, []);
-  return null;
+  return <div>Hello</div>;
 }
 
 export default MIDI;
